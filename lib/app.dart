@@ -9,49 +9,34 @@ class EventBuddyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EventBuddy',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ChangeNotifierProvider(
+      create: (_) => AuthViewModel(),
+      child: MaterialApp(
+        title: 'EventBuddy',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: const AuthWrapper(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: const AuthWrapper(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class AuthWrapper extends StatefulWidget {
+class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
-
-  @override
-  State<AuthWrapper> createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  @override
-  void initState() {
-    super.initState();
-    // Initialize auth when the app starts
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AuthViewModel>(context, listen: false).initializeAuth();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthViewModel>(
       builder: (context, authVM, child) {
-        // Show loading screen while checking auth state
-        if (authVM.isLoading) {
+        if (authVM.isInitializing) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
-        
-        // Navigate based on auth state
+
         return authVM.isLoggedIn ? const HomeScreen() : const LoginScreen();
       },
     );

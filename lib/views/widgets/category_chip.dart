@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/category_model.dart'
-;
+import '../../models/category_model.dart';
+
 class CategoryChip extends StatelessWidget {
   final String category;
   final bool isSelected;
@@ -16,7 +16,7 @@ class CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryData = CategoryData.categories[category]!;
-    
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.only(right: 12, bottom: 12),
@@ -24,26 +24,30 @@ class CategoryChip extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(25),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            gradient: isSelected ? LinearGradient(
-              colors: categoryData.gradient,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ) : null,
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: categoryData.gradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
             color: isSelected ? null : Colors.white.withOpacity(0.9),
             border: Border.all(
               color: isSelected ? Colors.transparent : categoryData.color,
               width: 2,
             ),
-            boxShadow: isSelected ? [
-              BoxShadow(
-                color: categoryData.color.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              )
-            ] : null,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: categoryData.color.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+                : null,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -53,7 +57,7 @@ class CategoryChip extends StatelessWidget {
                 color: isSelected ? Colors.white : categoryData.color,
                 size: 18,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Text(
                 category,
                 style: TextStyle(
